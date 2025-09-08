@@ -59,7 +59,7 @@ static inline void check_kernel_features(void)
 #define UNIT_TYPE(x) l4_uint64_t x
 #define UNIT_NAME(x) "cpu-cycles"
 #define PREPARE() do { check_kernel_features(); asm volatile ("mcr p15, 0, %0, c14, c15, 7" : : "r" (1UL << 27)); } while (0) // Enable counting in EL2 too
-#define TAKE_TIME(v) asm volatile ("mrc p15, 0, %0, c9, c13, 0" : "=r" (v))
+#define TAKE_TIME(v) asm volatile ("mrrc p15, 0, %Q0, %R0, c9" : "=r" (v))
 #define DIFF(x, start, end) ((end) - (start))
 #define SYNC() do {} while (0)
 
