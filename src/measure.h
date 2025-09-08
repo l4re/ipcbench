@@ -82,4 +82,4 @@ static inline void check_kernel_features(void)
            cpu, Num_rounds * factor, DIFF(n, start, end), UNIT_NAME(n), \
            DIFF(n, start, end) / (Num_rounds * factor), UNIT_NAME(n)); \
 
-enum { Num_rounds = 300000 };
+enum { Num_rounds = 10000 };
