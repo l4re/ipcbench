@@ -1,4 +1,5 @@
 entry ipcbench
+kernel fiasco -serial_esc
 roottask moe rom/ipcbench.cfg
 module l4re
 module ned
