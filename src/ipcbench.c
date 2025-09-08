@@ -13,8 +13,13 @@ int main(int argc, char **argv)
   (void)argc;
   (void)argv;
 
+  pthread_attr_t attr;
+  check_pthr_err(pthread_attr_init(&attr), "pthread_attr_init");
+  check_pthr_err(pthread_attr_setstacksize(&attr, min_stack_size()),
+                 "pthread_attr_setstacksize");
+
   pthread_t thread_responder;
-  check_pthr_err(pthread_create(&thread_responder, NULL, fn_responder, NULL),
+  check_pthr_err(pthread_create(&thread_responder, &attr, fn_responder, NULL),
                  "create responder thread");
 
   // Wait for responder to be ready
@@ -30,6 +35,8 @@ int main(int argc, char **argv)
 
   check_pthr_err(pthread_cancel(thread_responder), "cancel responder thread");
   check_pthr_err(pthread_join(thread_responder, NULL), "join responder thread");
+
+  pthread_attr_destroy(&attr);
 
   return 0;
 }

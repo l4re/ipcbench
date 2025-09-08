@@ -5,6 +5,8 @@
 #pragma once
 
 #include <l4/sys/types.h>
+#include <limits.h>
+#include <stddef.h>
 
 struct Caller_params
 {
@@ -27,3 +29,17 @@ void wait_for_start(void);
 void start(void);
 void set_completion_counter(unsigned val);
 void finished(void);
+
+/**
+ * Calculate minimum viable stack size.
+ *
+ * 4k on 32 bit and 8k on 64 bit systems.
+ */
+static inline size_t min_stack_size(void)
+{
+  size_t stacksize = sizeof(long) * 1024;
+  if (stacksize < PTHREAD_STACK_MIN)
+    stacksize = PTHREAD_STACK_MIN;
+
+  return stacksize;
+}

@@ -42,6 +42,8 @@ static void spawn_pair(unsigned cpu, void *arg)
   pthread_attr_t attr;
   check_pthr_err(pthread_attr_init(&attr), "pthread_attr_init");
   attr.create_flags |= PTHREAD_L4_ATTR_NO_START;
+  check_pthr_err(pthread_attr_setstacksize(&attr, min_stack_size()),
+                 "pthread_attr_setstacksize");
 
   // Create responder first
   check_pthr_err(pthread_create(&pair->responder_thread, &attr, fn_responder,
@@ -75,6 +77,8 @@ static void spawn_pair(unsigned cpu, void *arg)
       printf("Error starting caller on CPU %u: %ld\n", cpu, err);
       exit(1);
     }
+
+  pthread_attr_destroy(&attr);
 }
 
 int main(int argc, char **argv)

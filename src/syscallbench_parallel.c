@@ -49,6 +49,8 @@ static void spawn_threads(unsigned cpu, void *sp)
   pthread_attr_t attr;
   check_pthr_err(pthread_attr_init(&attr), "pthread_attr_init");
   attr.create_flags |= PTHREAD_L4_ATTR_NO_START;
+  check_pthr_err(pthread_attr_setstacksize(&attr, min_stack_size()),
+                 "pthread_attr_setstacksize");
   check_pthr_err(pthread_create(&thread->thread, &attr, fn_syscall,
                                 thread),
                  "create thread");
@@ -59,6 +61,8 @@ static void spawn_threads(unsigned cpu, void *sp)
       printf("Error starting responder on CPU %u: %ld\n", cpu, err);
       exit(1);
     }
+
+  pthread_attr_destroy(&attr);
 }
 
 int main(int argc, char **argv)
