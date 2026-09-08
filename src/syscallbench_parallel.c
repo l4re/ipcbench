@@ -3,6 +3,7 @@
 /* by Adam Lackorzynski <adam@l4re.org> */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <pthread-l4.h>
 

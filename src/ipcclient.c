@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <l4/sys/ipc.h>
 #include <l4/re/env.h>
 
 #include "measure.h"
